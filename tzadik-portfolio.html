@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tzadik Azaria — Digital Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0e0e0e;
+  --white: #f5f2ec;
+  --cream: #ede9e1;
+  --accent: #c8a96e;
+  --accent2: #8b6f47;
+  --gray: #6b6560;
+  --light-gray: #d4cfc7;
+  --card-bg: #1a1816;
+  --nav-h: 68px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, width 0.2s, height 0.2s, background 0.2s;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(200,169,110,0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s linear, width 0.3s, height 0.3s, border-color 0.3s;
+}
+body:has(a:hover) .cursor { transform: translate(-50%, -50%) scale(1.8); background: var(--accent2); }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  z-index: 100;
+  border-bottom: 1px solid rgba(200,169,110,0.1);
+  backdrop-filter: blur(20px);
+  background: rgba(14,14,14,0.85);
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  text-decoration: none;
+  cursor: none;
+}
+
+.nav-logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--light-gray);
+  text-decoration: none;
+  transition: color 0.2s;
+  cursor: none;
+}
+.nav-links a:hover { color: var(--white); }
+
+.nav-cta {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--black) !important;
+  background: var(--accent);
+  padding: 10px 22px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s !important;
+  cursor: none;
+}
+.nav-cta:hover { background: var(--white) !important; transform: translateY(-1px); }
+
+/* SECTIONS */
+section { padding: 120px 48px; }
+
+/* HERO */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(200,169,110,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(139,111,71,0.05) 0%, transparent 50%);
+}
+
+.hero-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+.hero-tag {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-tag::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero-headline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(52px, 8vw, 110px);
+  line-height: 0.93;
+  letter-spacing: -0.03em;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.35s forwards;
+}
+
+.hero-headline em {
+  font-style: normal;
+  color: var(--accent);
+  display: block;
+}
+
+.hero-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.5s forwards;
+}
+
+.hero-sub {
+  max-width: 440px;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--light-gray);
+  line-height: 1.7;
+}
+
+.hero-sub strong { color: var(--white); font-weight: 400; }
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--accent);
+  padding: 16px 32px;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  cursor: none;
+  white-space: nowrap;
+}
+.btn-primary:hover { background: var(--white); transform: translateY(-2px); }
+.btn-primary svg { transition: transform 0.2s; }
+.btn-primary:hover svg { transform: translate(3px, -3px); }
+
+.btn-ghost {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--light-gray);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(200,169,110,0.3);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+  cursor: none;
+}
+.btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeUp 1s 1s forwards;
+}
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollPulse 2s infinite;
+}
+.scroll-text {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray);
+  writing-mode: vertical-rl;
+}
+
+/* MARQUEE */
+.marquee-section {
+  padding: 0;
+  border-top: 1px solid rgba(200,169,110,0.1);
+  border-bottom: 1px solid rgba(200,169,110,0.1);
+  overflow: hidden;
+  background: var(--card-bg);
+}
+.marquee-track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: marquee 25s linear infinite;
+}
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 40px;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray);
+  flex-shrink: 0;
+}
+.marquee-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* WORK */
+#work { padding-top: 140px; }
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 4vw, 52px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 80px;
+}
+
+/* PROJECT CARDS */
+.projects-grid {
+  display: grid;
+  gap: 2px;
+}
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--card-bg);
+  cursor: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 460px;
+  border: 1px solid rgba(200,169,110,0.06);
+  transition: border-color 0.3s;
+}
+.project-card:hover { border-color: rgba(200,169,110,0.2); }
+
+.project-card.reverse { direction: rtl; }
+.project-card.reverse > * { direction: ltr; }
+
+.project-visual {
+  position: relative;
+  overflow: hidden;
+  background: #141210;
+  min-height: 460px;
+}
+
+.project-visual-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.project-card:hover .project-visual-inner { transform: scale(1.04); }
+
+/* Visual mockups for each project */
+.visual-ecommerce { background: linear-gradient(135deg, #1e1a15 0%, #2a2218 100%); }
+.visual-vineguard { background: linear-gradient(135deg, #0d1117 0%, #1a1522 100%); }
+.visual-sambusak { background: linear-gradient(135deg, #1a1008 0%, #2a1a05 100%); }
+.visual-social { background: linear-gradient(135deg, #0f1318 0%, #1a1e24 100%); }
+.visual-icons { background: linear-gradient(135deg, #151210 0%, #201a14 100%); }
+
+/* SVG Mockup illustrations */
+.mockup-svg {
+  width: 85%;
+  max-width: 380px;
+  filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6));
+}
+
+.project-info {
+  padding: 56px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+
+.project-number {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(200,169,110,0.3);
+  padding: 4px 10px;
+  border-radius: 1px;
+}
+
+.project-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(28px, 3vw, 42px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 20px;
+  color: var(--white);
+}
+
+.project-desc {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--light-gray);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.project-meta {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(200,169,110,0.1);
+}
+
+.meta-item { display: flex; flex-direction: column; gap: 4px; }
+.meta-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+.meta-value { font-size: 13px; font-weight: 400; color: var(--white); }
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(200,169,110,0.3);
+  padding-bottom: 2px;
+  transition: gap 0.2s, border-color 0.2s;
+  cursor: none;
+  width: fit-content;
+}
+.project-link:hover { gap: 14px; border-color: var(--accent); }
+
+/* ABOUT */
+#about {
+  background: var(--card-bg);
+  border-top: 1px solid rgba(200,169,110,0.1);
+  border-bottom: 1px solid rgba(200,169,110,0.1);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-text h2 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 3.5vw, 48px);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 32px;
+}
+
+.about-text p {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--light-gray);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.about-text p strong { color: var(--white); font-weight: 400; }
+
+.about-cta-group {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.about-right { display: flex; flex-direction: column; gap: 48px; }
+
+.skills-block {}
+.skills-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.skill-pill {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--light-gray);
+  background: rgba(200,169,110,0.06);
+  border: 1px solid rgba(200,169,110,0.1);
+  padding: 7px 14px;
+  border-radius: 2px;
+  transition: background 0.2s, color 0.2s;
+}
+.skill-pill:hover { background: rgba(200,169,110,0.12); color: var(--white); }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.stat-box {
+  background: rgba(200,169,110,0.04);
+  border: 1px solid rgba(200,169,110,0.08);
+  padding: 28px 24px;
+}
+.stat-number {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-desc {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--gray);
+  line-height: 1.4;
+}
+
+/* CONTACT */
+#contact {
+  text-align: center;
+  padding: 140px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(200,169,110,0.05) 0%, transparent 70%);
+}
+
+.contact-tag { justify-content: center; margin-bottom: 20px; }
+.contact-tag::before { display: none; }
+
+.contact-headline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(40px, 7vw, 96px);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin-bottom: 32px;
+}
+.contact-headline em { font-style: normal; color: var(--accent); display: block; }
+
+.contact-sub {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--light-gray);
+  max-width: 500px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+}
+
+.contact-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 80px;
+}
+
+.contact-details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  padding-top: 48px;
+  border-top: 1px solid rgba(200,169,110,0.1);
+}
+
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.contact-item-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+.contact-item-value {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--light-gray);
+  text-decoration: none;
+  transition: color 0.2s;
+  cursor: none;
+}
+.contact-item-value:hover { color: var(--accent); }
+
+/* FOOTER */
+footer {
+  background: var(--card-bg);
+  border-top: 1px solid rgba(200,169,110,0.1);
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+.footer-logo span { color: var(--accent); }
+
+.footer-links { display: flex; gap: 32px; list-style: none; }
+.footer-links a {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+  text-decoration: none;
+  transition: color 0.2s;
+  cursor: none;
+}
+.footer-links a:hover { color: var(--accent); }
+
+.footer-copy {
+  font-size: 12px;
+  color: var(--gray);
+}
+
+/* PROJECT DETAIL OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  z-index: 200;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.overlay.open { transform: translateY(0); }
+
+.overlay-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 120px 48px 80px;
+}
+
+.overlay-back {
+  position: fixed;
+  top: 24px;
+  left: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: none;
+  background: rgba(14,14,14,0.9);
+  padding: 10px 20px;
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 2px;
+  transition: background 0.2s;
+  z-index: 201;
+}
+.overlay-back:hover { background: rgba(200,169,110,0.1); }
+
+.overlay-header {
+  margin-bottom: 64px;
+}
+.overlay-tags { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.overlay-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(40px, 6vw, 72px);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin-bottom: 24px;
+}
+.overlay-intro {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--light-gray);
+  line-height: 1.7;
+  max-width: 680px;
+}
+
+.overlay-meta-row {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+  padding: 32px 0;
+  border-top: 1px solid rgba(200,169,110,0.1);
+  border-bottom: 1px solid rgba(200,169,110,0.1);
+  margin-bottom: 64px;
+}
+
+.overlay-visual {
+  width: 100%;
+  border-radius: 2px;
+  margin-bottom: 64px;
+  overflow: hidden;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  border: 1px solid rgba(200,169,110,0.08);
+}
+
+.overlay-visual svg {
+  width: 100%;
+  max-height: 500px;
+}
+
+.case-section { margin-bottom: 56px; }
+.case-section-label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.case-section-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--accent); }
+
+.case-section h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+
+.case-section p {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--light-gray);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.case-section ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.case-section ul li {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--light-gray);
+  line-height: 1.6;
+  display: flex;
+  gap: 12px;
+}
+.case-section ul li::before {
+  content: '→';
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.result-highlight {
+  background: rgba(200,169,110,0.06);
+  border: 1px solid rgba(200,169,110,0.15);
+  border-left: 3px solid var(--accent);
+  padding: 24px 28px;
+  border-radius: 2px;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--light-gray);
+  line-height: 1.7;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Mobile nav toggle */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: none;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--white);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; flex-direction: column; position: absolute; top: var(--nav-h); left: 0; right: 0; background: rgba(14,14,14,0.98); padding: 32px 24px; gap: 24px; border-bottom: 1px solid rgba(200,169,110,0.1); }
+  .nav-links.open { display: flex; }
+  .nav-hamburger { display: flex; }
+  section { padding: 80px 24px; }
+  #hero { padding: 0 24px 64px; }
+  .hero-headline { font-size: clamp(40px, 10vw, 70px); }
+  .hero-bottom { flex-direction: column; align-items: flex-start; }
+  .hero-actions { align-items: flex-start; }
+  .project-card { grid-template-columns: 1fr; min-height: auto; }
+  .project-card.reverse { direction: ltr; }
+  .project-visual { min-height: 280px; }
+  .project-info { padding: 40px 28px; }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .contact-headline { font-size: clamp(36px, 10vw, 60px); }
+  footer { flex-direction: column; gap: 20px; text-align: center; }
+  .footer-links { gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .overlay-inner { padding: 100px 24px 60px; }
+  .overlay-back { left: 24px; }
+  .overlay-meta-row { gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Tzadik<span>.</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="mailto:tzadikdesign@gmail.com" class="nav-cta">Hire Me</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-tag">Digital Designer · Based in Israel</div>
+  <h1 class="hero-headline">
+    Brand. Product.<br>
+    <em>E-commerce.</em>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-sub">
+      <strong>5+ years shaping visual identities, UX flows, and growth campaigns</strong> — from Shopify stores and mobile apps to brand identities and retail campaigns. Working globally.
+    </p>
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary">
+        View My Work
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a href="mailto:tzadikdesign@gmail.com" class="btn-ghost">tzadikdesign@gmail.com</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="scroll-text">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item"><span>Brand Identity</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>UX / UI Design</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>E-commerce</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Social Campaigns</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Packaging</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Shopify</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Figma</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Adobe Suite</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Meta Ads</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Brand Identity</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>UX / UI Design</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>E-commerce</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Social Campaigns</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Packaging</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Shopify</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Figma</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Adobe Suite</span><div class="marquee-dot"></div></div>
+    <div class="marquee-item"><span>Meta Ads</span><div class="marquee-dot"></div></div>
+  </div>
+</div>
+
+<!-- WORK -->
+<section id="work">
+  <div class="section-label reveal">Selected Work</div>
+  <h2 class="section-title reveal">Projects that<br>made an impact.</h2>
+
+  <div class="projects-grid">
+
+    <!-- PROJECT 1: E-commerce -->
+    <div class="project-card reveal" onclick="openProject('ecommerce')">
+      <div class="project-visual visual-ecommerce">
+        <div class="project-visual-inner">
+          <svg class="mockup-svg" viewBox="0 0 380 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Browser window -->
+            <rect x="10" y="10" width="360" height="300" rx="8" fill="#1e1a15" stroke="rgba(200,169,110,0.2)" stroke-width="1"/>
+            <rect x="10" y="10" width="360" height="36" rx="8" fill="#2a2218"/>
+            <rect x="10" y="36" width="360" height="10" fill="#2a2218"/>
+            <circle cx="32" cy="28" r="5" fill="rgba(200,169,110,0.3)"/>
+            <circle cx="50" cy="28" r="5" fill="rgba(200,169,110,0.15)"/>
+            <circle cx="68" cy="28" r="5" fill="rgba(200,169,110,0.1)"/>
+            <rect x="90" y="20" width="220" height="16" rx="3" fill="rgba(200,169,110,0.08)"/>
+            <!-- Nav -->
+            <rect x="24" y="58" width="60" height="8" rx="2" fill="rgba(200,169,110,0.6)"/>
+            <rect x="200" y="58" width="30" height="8" rx="2" fill="rgba(200,169,110,0.2)"/>
+            <rect x="240" y="58" width="30" height="8" rx="2" fill="rgba(200,169,110,0.2)"/>
+            <rect x="280" y="58" width="30" height="8" rx="2" fill="rgba(200,169,110,0.2)"/>
+            <rect x="320" y="54" width="36" height="16" rx="2" fill="rgba(200,169,110,0.4)"/>
+            <!-- Hero banner -->
+            <rect x="24" y="80" width="332" height="100" rx="4" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.1)" stroke-width="1"/>
+            <rect x="40" y="100" width="80" height="10" rx="2" fill="rgba(200,169,110,0.5)"/>
+            <rect x="40" y="116" width="120" height="16" rx="2" fill="rgba(245,242,236,0.7)"/>
+            <rect x="40" y="138" width="80" height="8" rx="2" fill="rgba(200,169,110,0.4)"/>
+            <rect x="40" y="154" width="52" height="18" rx="2" fill="rgba(200,169,110,0.7)"/>
+            <!-- Product grid -->
+            <rect x="24" y="196" width="100" height="90" rx="4" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.1)" stroke-width="1"/>
+            <rect x="34" y="240" width="80" height="6" rx="1" fill="rgba(245,242,236,0.4)"/>
+            <rect x="34" y="252" width="50" height="5" rx="1" fill="rgba(200,169,110,0.4)"/>
+            <rect x="140" y="196" width="100" height="90" rx="4" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.1)" stroke-width="1"/>
+            <rect x="150" y="240" width="80" height="6" rx="1" fill="rgba(245,242,236,0.4)"/>
+            <rect x="150" y="252" width="50" height="5" rx="1" fill="rgba(200,169,110,0.4)"/>
+            <rect x="256" y="196" width="100" height="90" rx="4" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.1)" stroke-width="1"/>
+            <rect x="266" y="240" width="80" height="6" rx="1" fill="rgba(245,242,236,0.4)"/>
+            <rect x="266" y="252" width="50" height="5" rx="1" fill="rgba(200,169,110,0.4)"/>
+            <!-- Decorative circles for beauty products -->
+            <circle cx="74" cy="225" r="20" fill="rgba(200,169,110,0.1)" stroke="rgba(200,169,110,0.2)" stroke-width="1"/>
+            <circle cx="190" cy="225" r="20" fill="rgba(200,169,110,0.08)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+            <circle cx="306" cy="225" r="20" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.1)" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-number">01 / 05</div>
+        <div class="project-tags">
+          <span class="tag">E-commerce</span>
+          <span class="tag">Web Design</span>
+          <span class="tag">Shopify</span>
+        </div>
+        <h3 class="project-name">Fine Rituals</h3>
+        <p class="project-desc">Full Shopify redesign for Israel's leading beauty and wellness importer — creating visual consistency across 15+ brands and hundreds of products.</p>
+        <div class="project-meta">
+          <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">In-house Designer</span></div>
+          <div class="meta-item"><span class="meta-label">Type</span><span class="meta-value">Client Work</span></div>
+        </div>
+        <span class="project-link">Read Case Study <span>→</span></span>
+      </div>
+    </div>
+
+    <!-- PROJECT 2: VinoGuard -->
+    <div class="project-card reverse reveal" onclick="openProject('vinoguard')">
+      <div class="project-visual visual-vineguard">
+        <div class="project-visual-inner">
+          <svg class="mockup-svg" viewBox="0 0 320 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Phone frame -->
+            <rect x="40" y="10" width="240" height="360" rx="28" fill="#0d1117" stroke="rgba(139,90,180,0.3)" stroke-width="1.5"/>
+            <rect x="50" y="24" width="220" height="332" rx="20" fill="#111520"/>
+            <!-- Notch -->
+            <rect x="120" y="18" width="80" height="14" rx="7" fill="#0d1117"/>
+            <!-- Status bar -->
+            <rect x="64" y="40" width="30" height="6" rx="2" fill="rgba(200,169,110,0.3)"/>
+            <rect x="220" y="40" width="36" height="6" rx="2" fill="rgba(200,169,110,0.2)"/>
+            <!-- Wine bottle icon area -->
+            <circle cx="160" cy="130" r="50" fill="rgba(100,50,140,0.1)" stroke="rgba(139,90,180,0.2)" stroke-width="1"/>
+            <rect x="150" y="85" width="20" height="8" rx="3" fill="rgba(200,169,110,0.5)"/>
+            <path d="M148 93 Q148 100 140 110 L140 160 Q140 170 160 170 Q180 170 180 160 L180 110 Q172 100 172 93 Z" fill="rgba(80,30,120,0.6)" stroke="rgba(139,90,180,0.4)" stroke-width="1"/>
+            <rect x="148" y="140" width="24" height="16" rx="2" fill="rgba(200,169,110,0.15)"/>
+            <rect x="152" y="143" width="16" height="2" rx="1" fill="rgba(200,169,110,0.4)"/>
+            <rect x="152" y="147" width="12" height="2" rx="1" fill="rgba(200,169,110,0.3)"/>
+            <!-- Shield/verified badge -->
+            <circle cx="185" cy="100" r="12" fill="rgba(200,169,110,0.15)" stroke="rgba(200,169,110,0.4)" stroke-width="1"/>
+            <path d="M181 100 L184 103 L190 97" stroke="rgba(200,169,110,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Auth status -->
+            <rect x="70" y="192" width="180" height="28" rx="6" fill="rgba(200,169,110,0.1)" stroke="rgba(200,169,110,0.2)" stroke-width="1"/>
+            <rect x="80" y="200" width="12" height="12" rx="2" fill="rgba(200,169,110,0.5)"/>
+            <rect x="100" y="202" width="80" height="6" rx="2" fill="rgba(200,169,110,0.5)"/>
+            <rect x="192" y="202" width="40" height="6" rx="2" fill="rgba(100,200,100,0.4)"/>
+            <!-- Wine details -->
+            <rect x="70" y="232" width="80" height="6" rx="2" fill="rgba(245,242,236,0.5)"/>
+            <rect x="70" y="244" width="120" height="5" rx="2" fill="rgba(245,242,236,0.2)"/>
+            <rect x="70" y="256" width="60" height="5" rx="2" fill="rgba(200,169,110,0.3)"/>
+            <!-- Stats row -->
+            <rect x="70" y="276" width="50" height="40" rx="4" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.1)" stroke-width="1"/>
+            <rect x="78" y="284" width="34" height="6" rx="2" fill="rgba(200,169,110,0.5)"/>
+            <rect x="78" y="296" width="24" height="5" rx="2" fill="rgba(200,169,110,0.2)"/>
+            <rect x="132" y="276" width="50" height="40" rx="4" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.1)" stroke-width="1"/>
+            <rect x="140" y="284" width="34" height="6" rx="2" fill="rgba(200,169,110,0.5)"/>
+            <rect x="140" y="296" width="24" height="5" rx="2" fill="rgba(200,169,110,0.2)"/>
+            <rect x="194" y="276" width="56" height="40" rx="4" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.1)" stroke-width="1"/>
+            <rect x="202" y="284" width="38" height="6" rx="2" fill="rgba(200,169,110,0.5)"/>
+            <rect x="202" y="296" width="28" height="5" rx="2" fill="rgba(200,169,110,0.2)"/>
+            <!-- Bottom nav -->
+            <rect x="70" y="330" width="180" height="1" fill="rgba(200,169,110,0.1)"/>
+            <circle cx="110" cy="346" r="8" fill="rgba(200,169,110,0.15)"/>
+            <circle cx="160" cy="346" r="8" fill="rgba(200,169,110,0.4)"/>
+            <circle cx="210" cy="346" r="8" fill="rgba(200,169,110,0.15)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-number">02 / 05</div>
+        <div class="project-tags">
+          <span class="tag">Branding</span>
+          <span class="tag">UX / UI</span>
+          <span class="tag">Concept</span>
+        </div>
+        <h3 class="project-name">VinoGuard</h3>
+        <p class="project-desc">A luxury wine authentication and collection management app — full brand identity, mobile UX/UI, website design, and a printed process book.</p>
+        <div class="project-meta">
+          <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">Solo Designer</span></div>
+          <div class="meta-item"><span class="meta-label">Type</span><span class="meta-value">Concept Project</span></div>
+        </div>
+        <span class="project-link">Read Case Study <span>→</span></span>
+      </div>
+    </div>
+
+    <!-- PROJECT 3: Sambusak -->
+    <div class="project-card reveal" onclick="openProject('sambusak')">
+      <div class="project-visual visual-sambusak">
+        <div class="project-visual-inner">
+          <svg class="mockup-svg" viewBox="0 0 360 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Packaging box / stand -->
+            <rect x="80" y="40" width="200" height="220" rx="6" fill="#2a1a05" stroke="rgba(220,140,30,0.4)" stroke-width="1.5"/>
+            <rect x="80" y="40" width="200" height="60" rx="6" fill="#3a2408"/>
+            <rect x="80" y="90" width="200" height="10" fill="#3a2408"/>
+            <!-- Logo area -->
+            <circle cx="180" cy="70" r="24" fill="rgba(220,140,30,0.2)" stroke="rgba(220,140,30,0.5)" stroke-width="1.5"/>
+            <path d="M168 70 Q172 60 180 58 Q188 60 192 70 Q188 80 180 82 Q172 80 168 70Z" fill="rgba(220,140,30,0.6)"/>
+            <circle cx="180" cy="70" r="6" fill="rgba(220,140,30,0.9)"/>
+            <!-- Brand name -->
+            <rect x="120" y="108" width="120" height="12" rx="2" fill="rgba(220,140,30,0.7)"/>
+            <rect x="140" y="126" width="80" height="7" rx="2" fill="rgba(220,140,30,0.3)"/>
+            <!-- Pattern dots -->
+            <circle cx="100" cy="165" r="4" fill="rgba(220,140,30,0.2)"/>
+            <circle cx="120" cy="155" r="3" fill="rgba(220,140,30,0.15)"/>
+            <circle cx="140" cy="170" r="5" fill="rgba(220,140,30,0.2)"/>
+            <circle cx="160" cy="158" r="3" fill="rgba(220,140,30,0.15)"/>
+            <circle cx="180" cy="168" r="4" fill="rgba(220,140,30,0.2)"/>
+            <circle cx="200" cy="155" r="3" fill="rgba(220,140,30,0.15)"/>
+            <circle cx="220" cy="165" r="5" fill="rgba(220,140,30,0.2)"/>
+            <circle cx="240" cy="158" r="3" fill="rgba(220,140,30,0.15)"/>
+            <circle cx="260" cy="168" r="4" fill="rgba(220,140,30,0.2)"/>
+            <!-- Tray / packaging -->
+            <rect x="110" y="195" width="140" height="55" rx="4" fill="#1a0e03" stroke="rgba(220,140,30,0.3)" stroke-width="1"/>
+            <rect x="120" y="203" width="120" height="8" rx="2" fill="rgba(220,140,30,0.2)"/>
+            <rect x="130" y="217" width="100" height="6" rx="2" fill="rgba(220,140,30,0.15)"/>
+            <rect x="140" y="229" width="80" height="6" rx="2" fill="rgba(220,140,30,0.15)"/>
+            <!-- Phone mockup small -->
+            <rect x="274" y="80" width="66" height="120" rx="10" fill="#1a0e03" stroke="rgba(220,140,30,0.4)" stroke-width="1"/>
+            <rect x="278" y="90" width="58" height="100" rx="7" fill="#2a1505"/>
+            <rect x="285" y="98" width="44" height="8" rx="2" fill="rgba(220,140,30,0.5)"/>
+            <rect x="285" y="112" width="44" height="5" rx="2" fill="rgba(220,140,30,0.2)"/>
+            <rect x="285" y="122" width="44" height="30" rx="3" fill="rgba(220,140,30,0.1)" stroke="rgba(220,140,30,0.15)" stroke-width="0.5"/>
+            <rect x="289" y="128" width="36" height="5" rx="1" fill="rgba(220,140,30,0.3)"/>
+            <rect x="289" y="138" width="28" height="5" rx="1" fill="rgba(220,140,30,0.2)"/>
+            <rect x="285" y="158" width="44" height="14" rx="3" fill="rgba(220,140,30,0.5)"/>
+            <rect x="297" y="163" width="20" height="5" rx="1" fill="rgba(26,14,3,0.7)"/>
+            <!-- Left small packaging -->
+            <rect x="20" y="100" width="52" height="140" rx="4" fill="#241205" stroke="rgba(220,140,30,0.3)" stroke-width="1"/>
+            <circle cx="46" cy="140" r="16" fill="rgba(220,140,30,0.15)" stroke="rgba(220,140,30,0.3)" stroke-width="1"/>
+            <rect x="30" y="168" width="32" height="5" rx="1" fill="rgba(220,140,30,0.4)"/>
+            <rect x="34" y="178" width="24" height="5" rx="1" fill="rgba(220,140,30,0.25)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-number">03 / 05</div>
+        <div class="project-tags">
+          <span class="tag">Branding</span>
+          <span class="tag">Packaging</span>
+          <span class="tag">UX / UI</span>
+        </div>
+        <h3 class="project-name">Give Me Sambusak</h3>
+        <p class="project-desc">Brand identity, sustainable packaging, a physical cardboard stand, and a mobile ordering app for an Israeli street food concept targeting a young audience.</p>
+        <div class="project-meta">
+          <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">Solo Designer</span></div>
+          <div class="meta-item"><span class="meta-label">Type</span><span class="meta-value">Concept Project</span></div>
+        </div>
+        <span class="project-link">Read Case Study <span>→</span></span>
+      </div>
+    </div>
+
+    <!-- PROJECT 4: Social -->
+    <div class="project-card reverse reveal" onclick="openProject('social')">
+      <div class="project-visual visual-social">
+        <div class="project-visual-inner">
+          <svg class="mockup-svg" viewBox="0 0 340 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Instagram-style grid -->
+            <rect x="20" y="20" width="90" height="90" rx="4" fill="rgba(200,169,110,0.1)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+            <rect x="125" y="20" width="90" height="90" rx="4" fill="rgba(200,169,110,0.08)" stroke="rgba(200,169,110,0.12)" stroke-width="1"/>
+            <rect x="230" y="20" width="90" height="90" rx="4" fill="rgba(200,169,110,0.12)" stroke="rgba(200,169,110,0.18)" stroke-width="1"/>
+            <rect x="20" y="120" width="90" height="90" rx="4" fill="rgba(200,169,110,0.08)" stroke="rgba(200,169,110,0.12)" stroke-width="1"/>
+            <rect x="125" y="120" width="90" height="90" rx="4" fill="rgba(200,169,110,0.14)" stroke="rgba(200,169,110,0.2)" stroke-width="1"/>
+            <rect x="230" y="120" width="90" height="90" rx="4" fill="rgba(200,169,110,0.07)" stroke="rgba(200,169,110,0.1)" stroke-width="1"/>
+            <!-- product circles -->
+            <circle cx="65" cy="55" r="25" fill="rgba(200,169,110,0.2)" stroke="rgba(200,169,110,0.3)" stroke-width="1"/>
+            <circle cx="65" cy="55" r="10" fill="rgba(200,169,110,0.4)"/>
+            <rect x="30" y="85" width="60" height="5" rx="1" fill="rgba(200,169,110,0.3)"/>
+            <rect x="170" y="50" width="30" height="24" rx="4" fill="rgba(200,169,110,0.3)"/>
+            <rect x="170" y="78" width="50" height="5" rx="1" fill="rgba(200,169,110,0.3)"/>
+            <rect x="170" y="86" width="35" height="5" rx="1" fill="rgba(200,169,110,0.2)"/>
+            <circle cx="275" cy="60" r="22" fill="rgba(200,169,110,0.15)" stroke="rgba(200,169,110,0.25)" stroke-width="1"/>
+            <rect x="255" y="88" width="40" height="5" rx="1" fill="rgba(200,169,110,0.3)"/>
+            <rect x="30" y="165" width="60" height="20" rx="3" fill="rgba(200,169,110,0.15)" stroke="rgba(200,169,110,0.2)" stroke-width="1"/>
+            <rect x="38" y="172" width="44" height="6" rx="1" fill="rgba(200,169,110,0.4)"/>
+            <circle cx="170" cy="160" r="28" fill="rgba(200,169,110,0.18)" stroke="rgba(200,169,110,0.25)" stroke-width="1"/>
+            <circle cx="170" cy="160" r="12" fill="rgba(200,169,110,0.35)"/>
+            <rect x="140" y="194" width="60" height="5" rx="1" fill="rgba(200,169,110,0.3)"/>
+            <rect x="248" y="148" width="54" height="40" rx="3" fill="rgba(200,169,110,0.1)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+            <rect x="255" y="155" width="40" height="5" rx="1" fill="rgba(200,169,110,0.4)"/>
+            <rect x="255" y="165" width="30" height="5" rx="1" fill="rgba(200,169,110,0.25)"/>
+            <rect x="255" y="175" width="35" height="8" rx="2" fill="rgba(200,169,110,0.3)"/>
+            <!-- Ad labels -->
+            <rect x="20" y="220" width="300" height="1" fill="rgba(200,169,110,0.1)"/>
+            <rect x="20" y="232" width="80" height="8" rx="2" fill="rgba(200,169,110,0.15)"/>
+            <rect x="110" y="232" width="80" height="8" rx="2" fill="rgba(200,169,110,0.1)"/>
+            <rect x="200" y="232" width="80" height="8" rx="2" fill="rgba(200,169,110,0.15)"/>
+            <rect x="20" y="248" width="50" height="5" rx="1" fill="rgba(200,169,110,0.3)"/>
+            <rect x="110" y="248" width="60" height="5" rx="1" fill="rgba(200,169,110,0.3)"/>
+            <rect x="200" y="248" width="45" height="5" rx="1" fill="rgba(200,169,110,0.3)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-number">04 / 05</div>
+        <div class="project-tags">
+          <span class="tag">Social Media</span>
+          <span class="tag">Meta Ads</span>
+          <span class="tag">Campaign</span>
+        </div>
+        <h3 class="project-name">Social & Campaign</h3>
+        <p class="project-desc">Solo content production — product photography, Meta ads, and promotional campaigns across Instagram and Facebook for 15+ beauty and wellness brands.</p>
+        <div class="project-meta">
+          <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">In-house Designer</span></div>
+          <div class="meta-item"><span class="meta-label">Type</span><span class="meta-value">Client Work</span></div>
+        </div>
+        <span class="project-link">Read Case Study <span>→</span></span>
+      </div>
+    </div>
+
+    <!-- PROJECT 5: Icons -->
+    <div class="project-card reveal" onclick="openProject('icons')">
+      <div class="project-visual visual-icons">
+        <div class="project-visual-inner">
+          <svg class="mockup-svg" viewBox="0 0 360 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Icon grid -->
+            <!-- Row 1 -->
+            <g>
+              <circle cx="60" cy="80" r="36" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+              <!-- Leaf / natural -->
+              <path d="M52 88 Q56 72 68 72 Q68 84 60 88 Z" fill="none" stroke="rgba(200,169,110,0.7)" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M52 88 Q60 80 68 72" stroke="rgba(200,169,110,0.5)" stroke-width="1" stroke-linecap="round"/>
+              <text x="60" y="126" text-anchor="middle" fill="rgba(200,169,110,0.5)" font-size="9" font-family="DM Sans">Natural</text>
+            </g>
+            <g>
+              <circle cx="140" cy="80" r="36" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+              <!-- Droplet / hydration -->
+              <path d="M140 64 Q148 74 148 80 Q148 88 140 88 Q132 88 132 80 Q132 74 140 64Z" fill="none" stroke="rgba(200,169,110,0.7)" stroke-width="1.5"/>
+              <path d="M135 80 Q137 76 140 76" stroke="rgba(200,169,110,0.3)" stroke-width="1" stroke-linecap="round"/>
+              <text x="140" y="126" text-anchor="middle" fill="rgba(200,169,110,0.5)" font-size="9" font-family="DM Sans">Hydration</text>
+            </g>
+            <g>
+              <circle cx="220" cy="80" r="36" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+              <!-- Sun / SPF -->
+              <circle cx="220" cy="80" r="8" fill="none" stroke="rgba(200,169,110,0.7)" stroke-width="1.5"/>
+              <line x1="220" y1="65" x2="220" y2="68" stroke="rgba(200,169,110,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="220" y1="92" x2="220" y2="95" stroke="rgba(200,169,110,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="205" y1="80" x2="208" y2="80" stroke="rgba(200,169,110,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="232" y1="80" x2="235" y2="80" stroke="rgba(200,169,110,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="210" y1="70" x2="212" y2="72" stroke="rgba(200,169,110,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="228" y1="88" x2="230" y2="90" stroke="rgba(200,169,110,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+              <text x="220" y="126" text-anchor="middle" fill="rgba(200,169,110,0.5)" font-size="9" font-family="DM Sans">SPF</text>
+            </g>
+            <g>
+              <circle cx="300" cy="80" r="36" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+              <!-- Shield / tested -->
+              <path d="M300 68 L290 72 L290 80 Q290 89 300 92 Q310 89 310 80 L310 72 Z" fill="none" stroke="rgba(200,169,110,0.7)" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M296 80 L299 83 L305 76" stroke="rgba(200,169,110,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="300" y="126" text-anchor="middle" fill="rgba(200,169,110,0.5)" font-size="9" font-family="DM Sans">Tested</text>
+            </g>
+            <!-- Row 2 -->
+            <g>
+              <circle cx="60" cy="185" r="36" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+              <!-- Star / anti-age -->
+              <path d="M60 168 L62.5 175.5 L70.5 175.5 L64 180 L66.5 187.5 L60 183 L53.5 187.5 L56 180 L49.5 175.5 L57.5 175.5 Z" fill="none" stroke="rgba(200,169,110,0.7)" stroke-width="1.5" stroke-linejoin="round"/>
+              <text x="60" y="231" text-anchor="middle" fill="rgba(200,169,110,0.5)" font-size="9" font-family="DM Sans">Anti-Age</text>
+            </g>
+            <g>
+              <circle cx="140" cy="185" r="36" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+              <!-- Vegan V -->
+              <path d="M132 174 L140 192 L148 174" fill="none" stroke="rgba(200,169,110,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="140" y="231" text-anchor="middle" fill="rgba(200,169,110,0.5)" font-size="9" font-family="DM Sans">Vegan</text>
+            </g>
+            <g>
+              <circle cx="220" cy="185" r="36" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+              <!-- Sensitive skin heart -->
+              <path d="M220 196 Q212 190 212 184 Q212 178 220 182 Q228 178 228 184 Q228 190 220 196Z" fill="none" stroke="rgba(200,169,110,0.7)" stroke-width="1.5"/>
+              <text x="220" y="231" text-anchor="middle" fill="rgba(200,169,110,0.5)" font-size="9" font-family="DM Sans">Sensitive</text>
+            </g>
+            <g>
+              <circle cx="300" cy="185" r="36" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.15)" stroke-width="1"/>
+              <!-- Fragrance free -->
+              <line x1="293" y1="174" x2="307" y2="196" stroke="rgba(200,169,110,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M296 174 Q300 178 304 174 L306 178 Q302 186 300 196 Q298 186 294 178 Z" fill="none" stroke="rgba(200,169,110,0.7)" stroke-width="1.5" stroke-linejoin="round"/>
+              <text x="300" y="231" text-anchor="middle" fill="rgba(200,169,110,0.5)" font-size="9" font-family="DM Sans">Fragrance-Free</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-number">05 / 05</div>
+        <div class="project-tags">
+          <span class="tag">Icon Design</span>
+          <span class="tag">Visual System</span>
+          <span class="tag">Asia Market</span>
+        </div>
+        <h3 class="project-name">Product Icon System</h3>
+        <p class="project-desc">A scalable set of 10–20 icons communicating product benefits, ingredients, and features across beauty listings for the Asian market — language-free, brand-consistent.</p>
+        <div class="project-meta">
+          <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">In-house Designer</span></div>
+          <div class="meta-item"><span class="meta-label">Type</span><span class="meta-value">Client Work</span></div>
+        </div>
+        <span class="project-link">Read Case Study <span>→</span></span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <div class="section-label" style="margin-bottom:20px">About Me</div>
+      <h2>Designer who's<br>touched every corner<br>of <em style="font-style:normal;color:var(--accent)">visual communication.</em></h2>
+      <p>I'm Tzadik Azaria — a digital designer with a background across <strong>brand identity, UX/UI, e-commerce, and campaign design</strong>. I've worked across almost every corner of visual communication, from building full Shopify stores to designing packaging, app interfaces, and retail signage.</p>
+      <p>Most recently I ran social content, Meta ads, and newsletters <strong>solo for 15+ brands</strong> simultaneously at Fine Rituals. I'm comfortable owning a project from strategy to final delivery.</p>
+      <p>I'm looking for a full-time or freelance role in web design, graphic design, or digital marketing — somewhere I can grow and contribute from day one.</p>
+      <div class="about-cta-group">
+        <a href="mailto:tzadikdesign@gmail.com" class="btn-primary">
+          Get in Touch
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#" class="btn-ghost" onclick="alert('Add your CV link here!')">Download CV</a>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-number">5+</div>
+          <div class="stat-desc">Years across brand, product & e-commerce design</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">15+</div>
+          <div class="stat-desc">Brands managed simultaneously in one role</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">5</div>
+          <div class="stat-desc">Major projects across web, brand, app & print</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">3</div>
+          <div class="stat-desc">Disciplines: visual, UX, and campaign design</div>
+        </div>
+      </div>
+      <div class="skills-block">
+        <div class="skills-label">Tools & Skills</div>
+        <div class="skills-list">
+          <span class="skill-pill">Figma</span>
+          <span class="skill-pill">Adobe Photoshop</span>
+          <span class="skill-pill">Adobe Illustrator</span>
+          <span class="skill-pill">Adobe InDesign</span>
+          <span class="skill-pill">Shopify</span>
+          <span class="skill-pill">Wix Studio</span>
+          <span class="skill-pill">Meta Ads Manager</span>
+          <span class="skill-pill">Brand Identity</span>
+          <span class="skill-pill">UX / UI</span>
+          <span class="skill-pill">Packaging</span>
+          <span class="skill-pill">Icon Design</span>
+          <span class="skill-pill">E-commerce</span>
+          <span class="skill-pill">Social Media</span>
+          <span class="skill-pill">Hebrew · English</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-bg"></div>
+  <div class="section-label contact-tag reveal">Let's Work Together</div>
+  <h2 class="contact-headline reveal">
+    Open to<br>
+    <em>opportunities.</em>
+  </h2>
+  <p class="contact-sub reveal">Available for full-time roles and freelance projects in web design, graphic design, and digital marketing.</p>
+  <div class="contact-actions reveal">
+    <a href="mailto:tzadikdesign@gmail.com" class="btn-primary">
+      Send me an email
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/tzadik-azaria" class="btn-ghost" target="_blank">LinkedIn Profile</a>
+  </div>
+  <div class="contact-details reveal">
+    <div class="contact-item">
+      <span class="contact-item-label">Email</span>
+      <a href="mailto:tzadikdesign@gmail.com" class="contact-item-value">tzadikdesign@gmail.com</a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-item-label">Phone</span>
+      <a href="tel:+972509009697" class="contact-item-value">+972-50-900-9697</a>
+    </div>
+    <div class="contact-item">
+      <span class="contact-item-label">Location</span>
+      <span class="contact-item-value">Israel · Available globally</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-item-label">LinkedIn</span>
+      <a href="https://www.linkedin.com/in/tzadik-azaria" class="contact-item-value" target="_blank">tzadik-azaria</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Tzadik<span>.</span></div>
+  <ul class="footer-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://www.linkedin.com/in/tzadik-azaria" target="_blank">LinkedIn</a></li>
+    <li><a href="mailto:tzadikdesign@gmail.com">Email</a></li>
+  </ul>
+  <span class="footer-copy">© 2025 Tzadik Azaria</span>
+</footer>
+
+<!-- PROJECT OVERLAYS -->
+<div class="overlay" id="overlay">
+  <button class="overlay-back" onclick="closeProject()">← Back to Work</button>
+  <div class="overlay-inner" id="overlayContent"></div>
+</div>
+
+<!-- PROJECT DATA -->
+<script>
+const projects = {
+  ecommerce: {
+    tags: ['E-commerce', 'Web Design', 'Shopify'],
+    title: 'Fine Rituals',
+    intro: 'Full Shopify redesign for Israel\'s leading beauty and wellness importer — creating a coherent visual identity across hundreds of products and 15+ brands.',
+    meta: [
+      { label: 'Company', value: 'Fine Rituals' },
+      { label: 'Role', value: 'In-house Designer' },
+      { label: 'Tools', value: 'Figma · Shopify · Adobe Photoshop' },
+      { label: 'Type', value: 'Client Work' },
+    ],
+    sections: [
+      {
+        label: 'The Challenge',
+        title: 'A premium brand with a generic-looking store.',
+        body: 'Fine Rituals stocks a wide range of product categories — from luxury skincare and face care to sexual wellness, hair products, home fragrance, and curated bundles. The original Shopify store treated them all the same way. There was no visual hierarchy between categories, no consistent brand language across product pages, and the overall design felt generic rather than aspirational. Customers landing on the site had no clear sense of what Fine Rituals stood for.',
+      },
+      {
+        label: 'My Approach',
+        title: 'Redesigning from the ground up.',
+        body: 'I rebuilt the Shopify store with three goals: create a coherent visual identity that works across every product category, make browsing feel intuitive for a wide catalogue, and bring the design up to the standard of the brands it carries.',
+        list: [
+          'Full homepage layout and visual hierarchy',
+          'Product listing page templates per category',
+          'Product detail page structure — imagery, copy layout, and upsell placement',
+          'Navigation architecture to handle dozens of sub-categories cleanly',
+          'Visual brand language — typography, colour palette, and imagery style',
+        ],
+      },
+      {
+        label: 'The Outcome',
+        result: 'The redesigned store launched across all product categories, giving Fine Rituals a consistent visual presence for the first time. The new structure made it significantly easier to add new products and brands without breaking the layout — an ongoing need for a company that regularly brings in new lines.',
+      },
+    ],
+  },
+  vinoguard: {
+    tags: ['Branding', 'UX / UI', 'App Design', 'Concept'],
+    title: 'VinoGuard',
+    intro: 'A luxury wine authentication and collection management app — designed from zero to a fully resolved brand system: identity, mobile UX/UI, website, and a printed process book.',
+    meta: [
+      { label: 'Type', value: 'Concept Project' },
+      { label: 'Role', value: 'Solo Designer' },
+      { label: 'Tools', value: 'Figma · Adobe Illustrator · InDesign' },
+      { label: 'Deliverables', value: 'Brand · App · Web · Print' },
+    ],
+    sections: [
+      {
+        label: 'The Challenge',
+        title: 'Making security feel luxurious.',
+        body: 'Wine fraud is a growing problem in the fine wine market — counterfeit bottles regularly pass through auctions and private sales. Collectors rely on paper certificates or expert opinion, neither of which scales. VinoGuard\'s concept was digital authentication and collection tracking in one elegant product. The design challenge: make something highly functional feel genuinely luxurious — not clinical or technical.',
+      },
+      {
+        label: 'My Approach',
+        title: 'Four touchpoints, one visual language.',
+        body: 'I owned the entire creative output across four deliverables:',
+        list: [
+          'Brand Identity — logo, colour system, typography, and brand guidelines drawn from deep burgundy and aged gold tones',
+          'UX/UI App — onboarding, scanning and authentication flow, cellar management, wine detail pages, and collection insights',
+          'Website — marketing site targeting individual collectors and auction houses in the same premium visual language',
+          'Print Process Book — full documentation of research, brand decisions, UX rationale, and final screens',
+        ],
+      },
+      {
+        label: 'The Outcome',
+        result: 'VinoGuard demonstrates the ability to take a concept from zero — no brief, no client, no existing assets — through to a fully resolved multi-platform product. The project covers brand strategy, identity design, UX research, UI design, web design, and print production in a single cohesive body of work.',
+      },
+    ],
+  },
+  sambusak: {
+    tags: ['Branding', 'Packaging', 'UX / UI', 'Concept'],
+    title: 'Give Me Sambusak',
+    intro: 'Brand identity, sustainable packaging, a hand-built physical cardboard stand, and a mobile ordering app for an Israeli street food concept targeting a young, trend-conscious audience.',
+    meta: [
+      { label: 'Type', value: 'Concept Project' },
+      { label: 'Role', value: 'Solo Designer' },
+      { label: 'Tools', value: 'Figma · Adobe Illustrator · Photoshop' },
+      { label: 'Deliverables', value: 'Brand · Packaging · App · Physical' },
+    ],
+    sections: [
+      {
+        label: 'The Challenge',
+        title: 'Street food that feels modern without losing its soul.',
+        body: 'A Sambusak is a deep-fried pastry filled with cheese or potato — a beloved snack rooted in Middle Eastern and Israeli food culture. Street food has a reputation problem: it\'s either too rough to feel premium, or too polished to feel authentic. The brief was to create a brand that sits confidently in between — fun, energetic, and modern enough for a young audience, while still feeling real. Everything — from the logo to the packaging to the ordering screen — needed to feel like it belonged together.',
+      },
+      {
+        label: 'My Approach',
+        title: 'A complete brand across four outputs.',
+        body: 'This project was fully self-directed. I designed every element of the brand:',
+        list: [
+          'Brand Identity — logo, colour system, custom icons, patterns, and brand illustrations with bold, playful energy',
+          'Packaging — sustainable paper trays, bottles, and wrapping, each carrying the brand\'s patterns and messaging consistently',
+          'Physical Stand — a cardboard pop-up stand prototype showing how the brand lives in the real world, including signage and environmental design',
+          'Ordering App — a mobile-first interface for menu browsing, customisation, and fast checkout, designed for a young moving audience',
+        ],
+      },
+      {
+        label: 'The Outcome',
+        result: 'Give Me Sambusak shows how brand thinking translates across digital and physical touchpoints. Starting from a blank page, the project produced a complete brand system: identity, packaging, environmental design, and a working UX prototype — all cohesive, all production-ready in concept.',
+      },
+    ],
+  },
+  social: {
+    tags: ['Social Media', 'Meta Ads', 'Campaign Design'],
+    title: 'Social & Campaign',
+    intro: 'Solo content production for Fine Rituals — product photography editing, Meta ad creatives, and promotional campaigns across Instagram and Facebook for 15+ beauty and wellness brands simultaneously.',
+    meta: [
+      { label: 'Company', value: 'Fine Rituals' },
+      { label: 'Role', value: 'In-house Designer (Solo)' },
+      { label: 'Platforms', value: 'Instagram · Facebook' },
+      { label: 'Tools', value: 'Adobe Photoshop · Illustrator · Meta Ads' },
+    ],
+    sections: [
+      {
+        label: 'The Challenge',
+        title: 'One designer. Fifteen+ brands. Moving fast.',
+        body: 'Fine Rituals carries many brands, each with its own visual identity and tone. The challenge was producing high-quality content at speed — without letting everything blur together into a generic feed. Every brand needed to feel distinct, while the overall Fine Rituals presence needed to feel curated and premium. Doing this solo, across multiple platforms and campaign types, meant building a production system that could move quickly without sacrificing quality.',
+      },
+      {
+        label: 'My Approach',
+        title: 'Building a system I could run alone.',
+        body: 'I owned the full content pipeline from brief to published post:',
+        list: [
+          'Product photography editing — retouching and compositing for feed and story formats, adapted per brand',
+          'Promotional ads — Meta ad creatives for product launches, seasonal campaigns, and offers across 15+ brands',
+          'Brand content — feed posts balancing promotional messaging with brand storytelling',
+          'Templates and style frameworks — reusable systems so I could produce consistently without starting from scratch each time',
+        ],
+      },
+      {
+        label: 'The Outcome',
+        result: 'Delivered consistent, on-brand content for over 15 brands across Instagram and Facebook within a fast-moving commercial environment — solo. The experience sharpened the ability to manage multiple visual identities simultaneously, work under tight deadlines, and produce polished output without a team.',
+      },
+    ],
+  },
+  icons: {
+    tags: ['Icon Design', 'Visual System', 'Asia Market'],
+    title: 'Product Icon System',
+    intro: 'A scalable set of 10–20 icons communicating product benefits, key ingredients, and features across beauty listings for the Asian market — designed to work without language.',
+    meta: [
+      { label: 'Company', value: 'Fine Rituals' },
+      { label: 'Role', value: 'In-house Designer' },
+      { label: 'Market', value: 'Asia' },
+      { label: 'Tools', value: 'Adobe Illustrator · Figma' },
+    ],
+    sections: [
+      {
+        label: 'The Challenge',
+        title: 'Communicating benefits across language barriers.',
+        body: 'Selling beauty products internationally means communicating with customers who may not read Hebrew or English fluently. Product benefits — things like moisturising, anti-ageing, paraben-free, or suitable for sensitive skin — needed to be understood at a glance. Text alone wasn\'t enough. The icons also needed to feel premium enough to sit alongside product photography, and consistent enough to work as a system rather than a collection of one-offs.',
+      },
+      {
+        label: 'My Approach',
+        title: 'A unified visual language for product claims.',
+        body: 'I designed 10–20 icons covering the most important product claims across the Fine Rituals catalogue for the Asian market. Each icon was built to:',
+        list: [
+          'Communicate a single, specific benefit at small sizes without losing clarity',
+          'Work in both light and dark contexts — product pages and packaging',
+          'Follow a consistent visual style: same stroke weight, corner radius, and level of detail',
+          'Cover skin benefits (hydration, brightening, anti-ageing), ingredients (natural, vegan, fragrance-free), and product features (SPF, dermatologically tested, sensitive skin)',
+        ],
+      },
+      {
+        label: 'The Outcome',
+        result: 'The icon set was deployed across Fine Rituals\' product listings for the Asian market, giving customers a clear visual shorthand for product benefits without relying on translated text. The system was designed to be expandable — new icons could be added as new products and claims were introduced.',
+      },
+    ],
+  },
+};
+
+function openProject(id) {
+  const p = projects[id];
+  let html = `
+    <div class="overlay-header">
+      <div class="overlay-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <h1 class="overlay-title">${p.title}</h1>
+      <p class="overlay-intro">${p.intro}</p>
+    </div>
+    <div class="overlay-meta-row">
+      ${p.meta.map(m => `<div class="meta-item"><span class="meta-label">${m.label}</span><span class="meta-value">${m.value}</span></div>`).join('')}
+    </div>
+  `;
+  p.sections.forEach(s => {
+    html += `<div class="case-section">`;
+    html += `<div class="case-section-label">${s.label}</div>`;
+    if (s.title) html += `<h3>${s.title}</h3>`;
+    if (s.body) html += `<p>${s.body}</p>`;
+    if (s.list) html += `<ul>${s.list.map(i => `<li>${i}</li>`).join('')}</ul>`;
+    if (s.result) html += `<div class="result-highlight">${s.result}</div>`;
+    html += `</div>`;
+  });
+  document.getElementById('overlayContent').innerHTML = html;
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProject() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+function animRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); }
+animRing();
+
+// Nav toggle
+function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+
+// Reveal on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Close overlay on escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProject(); });
+</script>
+
+</body>
+</html>
